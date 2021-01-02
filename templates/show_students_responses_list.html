@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block navigation %}
+<div class="container" style="width:100%; margin:0;">
+  <div class="row">
+    <div class="col-3" style="cursor:pointer" onclick="openNav()">User &#9776;</div>
+    <div class="col-7">Students Responses</div>
+  </div>
+</div>
+{% endblock navigation %}
+
+{% block left_pane %}
+<div class="left_pane" id="left_pane">
+  <a href="{% url 'logout' %}" style="position:absolute; top:0; left:0; padding-top:20px;">Logout</a>
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="#">{{ user.get_username }}</a>
+</div>
+{% endblock left_pane %}
+
+{% block content %}
+<div class="content">
+  <div class="table-responsive-md col-md-8 justify-content-center" id="main-content">
+    <table class="table table-hover">
+      <thead class="table-head-custom">
+        <tr>
+          <th scope="col">Student Name</th>
+          <th scope="col">Submission Date</th>
+          <th scope="col">Show</th>
+          <th scope="col">Delete</th>
+        </tr>
+      </thead>
+      {% for answers in answers_model_instance %}
+        <tbody>
+          <tr>
+            <td scope="row" hidden>{{answers.pk}}</td>
+            <td>{{answers.student_name}}</td>
+            <td>{{answers.submission_date}}</td>
+            <td><a href="{% url 'student_wise_responses' exam_id=exam_id student_id=answers.student_name_id %}">Show</a></td>
+            <td><a href="{% url 'delete_student_response' exam_id=exam_id student_id=answers.student_name_id %}">Delete</a></td>
+          </tr>
+        </tbody>
+      {% empty %}
+        <tbody>
+          <tr><td>Sorry! But no one responded to your exam yet...</td></tr>
+        </tbody>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock content %}
+
+{% block javascript %}
+<script>
+function openNav() {
+  document.getElementById("left_pane").style.width = "250px";
+}
+
+function closeNav() {
+  document.getElementById("left_pane").style.width = "0";
+}
+</script>
+{% endblock javascript %}
+
+{% block footer %}
+{% endblock footer %}

@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load exam_module_tags %}
+
+{% block navigation %}
+<div class="container" style="width:100%; margin:0;">
+  <div class="row">
+    <div class="col-3" style="cursor:pointer" onclick="openNav()">User &#9776;</div>
+    <div class="col-7">{{ exam_info_instance.exam_name }}</div>
+    <div class="col-2" style="text-align:right;"></div>
+  </div>
+</div>
+{% endblock navigation %}
+
+{% block left_pane %}
+<div class="left_pane" id="left_pane">
+  {% if user.is_authenticated %}
+    <a href="{% url 'logout' %}" style="position:absolute; top:0; left:0; padding-top:20px;">Logout</a>
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="#">User : {{ user.get_username }}</a>
+  {% else %}
+    <a>Date: </div>
+  {% endif %}
+</div>
+{% endblock left_pane %}
+
+{% block content %}
+<div class="col-12" style="padding:5rem;">
+  <form method="POST" id="id_form">
+    {% csrf_token %}
+
+    {% for question in question_model_instance %}
+      <div class="form-group question_answers_form" style="margin-bottom:3rem;">
+        <div class="row">
+          <div class="col-12">
+            <p class="content-heading">
+              {{question.pk}}. {{question.question}}
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            {% for field in answer_the_question_form.get_answers_fields %}
+              {{ field | ends_with_int:question.pk | default_if_none:"" }}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p>Sorry, but No Questions Created in this quiz</p>
+    {% endfor %}
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-12" style="text-align: right;">
+          <button class="btn btn-success" type="submit">Submit Quiz</button>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+{% endblock content %}
+
+{% block javascript %}
+<script>
+function openNav() {
+  document.getElementById("left_pane").style.width = "250px";
+}
+
+function closeNav() {
+  document.getElementById("left_pane").style.width = "0";
+}
+</script>
+{% endblock javascript %}
+
+{% block footer %}
+{% endblock footer %}

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load exam_module_tags %}
+
+{% block navigation %}
+  <div class="row">
+    <div class="col-10">Students Responses</div>
+    <div class="col-2">{{answers_model_instance.student_name}}</div>
+  </div>
+{% endblock navigation %}
+
+{% block left_pane %}
+<div class="col-2" style="padding-left:0;">
+  <div class="left_pane">
+    <span class="current">
+      {{ user.get_username }}
+    </span>
+  </div>
+</div>
+{% endblock left_pane %}
+
+{% block content %}
+
+<div class="col-10">
+  <table class="table table-hover">
+    {% for key, value in question_answer_dict.items %}
+      <thead class="table-head-custom">
+        <tr>
+          <th scope="col">Ques. {{key.id}}: {{key}}</th>
+        </tr>
+      </thead>
+
+      <tbody id="{{key.id}}">
+        <tr>
+          <td>Ans: {{ value | value_from_key:key.id }}</td>
+        </tr>
+      </tbody>
+    {% empty %}
+      <td>Sorry!</td>
+    {% endfor %}
+  </table>
+</div>
+
+{% endblock content %}
+
+{% block footer %}
+{% endblock footer %}

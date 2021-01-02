@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="content" style="padding:3rem;">
+  <div class="table-responsive-md exam_info">
+    <table class="table table-hover">
+      <thead class="table-head-custom">
+        <tr>
+          <th scope="col">Exam Name</th>
+          <th scope="col">Activation Date</th>
+          <th scope="col">Prepared By</th>
+          <th scope="col">Start Quiz</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for exam_name in exam_info_instance %}
+          <tr>
+            <td scope="row" hidden>{{exam_name.pk}}</td>
+            <td>{{exam_name.exam_name}}</td>
+            <td>{{exam_name.activation_date}}</td>
+            <td>{{exam_name.prepared_by}}</td>
+            <td><a href="{% url 'checking_student_response' exam_id=exam_name.pk student_id=user.pk %}">Start Quiz</a></td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td scope="row">Sorry! No Exam Found...</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock content %}
+
+{% block footer %}
+{% endblock footer %}

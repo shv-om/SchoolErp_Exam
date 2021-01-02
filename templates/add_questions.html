@@ -1,0 +1,27 @@
+
+<!-- Not in Use Template -->
+
+{% block content %}
+<div class="content">
+  <div class="row">
+    <div class="col-9 exam_questions">
+      {% if question_model_instance %}
+        {% for questions in question_model_instance %}
+        <p>
+          {{questions.pk}}.
+          <span> {{questions.question}}</span>
+        </p>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    <div class="col-3 right_pane_form">
+      <form method="POST" id="create_question_form" name="create_question_form">
+        {% csrf_token %}
+        {{ create_question_form.as_p }}
+        <button class="btn btn-success" type=submit>Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}
