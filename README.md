@@ -17,10 +17,14 @@ Modify code as per your need:
 Important Urls for application (Change using urls of exam_module)
 
 http://localhost:8000/registration/signup
+
 http://localhost:8000/registration/login
+
 http://localhost:8000/registration/logout
 
 http://localhost:8000/students_view
+
 http://localhost:8000/exam_info_view
+
 http://localhost:8000/show_exam_responses
 
